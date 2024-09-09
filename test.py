@@ -10,27 +10,37 @@ async def main() -> CompetitionRate:
 
     async with ClientSession() as session:
         async with session.get(url) as response:
-            response = await response.text()
+            response = await response.text(encoding="utf-8")
     soup = BeautifulSoup(response, "html.parser")
-    current = soup.select_one("#table > table:nth-child(5) > tbody:nth-child(3)")
-    updatedAt = soup.select_one("#ID_DateStr > label").text.strip()
 
-    KAIST = CompetitionRate(
+    current = soup.select_one("#Ratio1008023 > div:nth-child(1) > table")
+    updatedAt = soup.select_one("#RatioTime").text.strip()
+
+    Konkuk = CompetitionRate(
         universityName="건국대학교(서울)",
         siteUri=url,
         updatedAt=updatedAt,
-        universityColor=(0, 65, 145),
+        universityColor=(3, 107, 41),
     )
 
-    for tr in current.select("tr"):
+    for tr in current.select("tr")[1:]:
         tds = tr.select("td")
-        KAIST.addParagon(
-            paragon=tds[0].text,
-            totalMember=tds[1].text,
-            member=tds[2].text,
-            competitionRate=tds[3].text,
-        )
+        try:
+            Konkuk.addParagon(
+                paragon=tds[1].text,
+                totalMember=tds[2].text,
+                member=tds[3].text,
+                competitionRate=tds[4].text,
+            )
+        except IndexError:
+            Konkuk.addParagon(
+                paragon=tds[0].text,
+                totalMember=tds[1].text,
+                member=tds[2].text,
+                competitionRate=tds[3].text,
+            )
 
-    return KAIST
+    return Konkuk
 
-print(asyncio.run(main()).toList())
+for i in (asyncio.run(main()).toList()):
+    print(i)

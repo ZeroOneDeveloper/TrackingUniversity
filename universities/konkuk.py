@@ -12,7 +12,7 @@ async def main() -> CompetitionRate:
             response = await response.text(encoding="utf-8")
     soup = BeautifulSoup(response, "html.parser")
 
-    current = soup.select("#Ratio10080231 > div:nth-child(1) > table > tr")
+    current = soup.select_one("#Ratio1008023 > div:nth-child(1) > table")
     updatedAt = soup.select_one("#RatioTime").text.strip()
 
     Konkuk = CompetitionRate(
@@ -22,7 +22,7 @@ async def main() -> CompetitionRate:
         universityColor=(3, 107, 41),
     )
 
-    for tr in current[1:]:
+    for tr in current.select("tr")[1:]:
         tds = tr.select("td")
         try:
             Konkuk.addParagon(
