@@ -13,7 +13,7 @@ class Listener(commands.Cog):
         self.bot = bot
         self.collectCompetitionRate.start()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(seconds=30)
     async def collectCompetitionRate(self):
         with open(file="./universitiesData.json", mode="r", encoding="utf-8") as f:
             universitiesData = json.load(f)
