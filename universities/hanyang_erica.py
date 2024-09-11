@@ -12,7 +12,7 @@ async def main() -> CompetitionRate:
             response = await response.text()
     soup = BeautifulSoup(response, "html.parser")
     
-    current = soup.select_one("#Ratio11650561 > div:nth-child(1) > table")
+    current = soup.select_one("#Ratio1165056 > div:nth-child(2) > table")
     updatedAt = soup.select_one("#RatioTime").text.strip()
 
     Hanyang = CompetitionRate(
