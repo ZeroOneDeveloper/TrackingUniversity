@@ -21,7 +21,7 @@ async def main() -> CompetitionRate:
         universityColor=(119, 34, 46),
     )
 
-    for tr in current.select("tr")[1:]:
+    for tr in current.select("tr"):
         tds = tr.select("td")
         Kwangwoon.addParagon(
             paragon=tds[0].text,
