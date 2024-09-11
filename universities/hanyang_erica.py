@@ -5,18 +5,18 @@ from dataStructure import CompetitionRate
 
 
 async def main() -> CompetitionRate:
-    url = "http://addon.jinhakapply.com/RatioV1/RatioH/Ratio11640371.html"
+    url = "http://addon.jinhakapply.com/RatioV1/RatioH/Ratio11650561.html"
 
     async with ClientSession() as session:
         async with session.get(url) as response:
             response = await response.text()
     soup = BeautifulSoup(response, "html.parser")
     
-    current = soup.select_one("#Ratio1164037 > div:nth-child(1) > table")
+    current = soup.select_one("#Ratio11650561 > div:nth-child(1) > table")
     updatedAt = soup.select_one("#RatioTime").text.strip()
 
     Hanyang = CompetitionRate(
-        universityName="한양대학교(서울)",
+        universityName="한양대학교(ERICA)",
         siteUri=url,
         updatedAt=updatedAt,
         universityColor=(14,74,132),
