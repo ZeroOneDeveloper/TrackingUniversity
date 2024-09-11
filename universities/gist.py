@@ -18,7 +18,7 @@ async def main() -> CompetitionRate:
         universityName="GIST",
         siteUri=url,
         updatedAt=updatedAt,
-        universityColor=(119, 34, 46),
+        universityColor=(223, 54, 35),
     )
 
     for tr in current.select("tr"):
