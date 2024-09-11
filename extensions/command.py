@@ -64,5 +64,23 @@ class Command(commands.Cog):
             json.dump(universitiesData, f, ensure_ascii=False, indent=4)
 
 
+    @university.command(name="추적해제")
+    async def untrack(self, ctx: Context, name: str):
+        with open(file="./universitiesData.json", mode="r", encoding="utf-8") as f:
+            universitiesData = json.load(f)
+        if universitiesData.get(name) is None:
+            await ctx.send(f"존재하지 않는 대학교: `{name}`")
+            return
+        if universitiesData[name]["trackedMembers"].count(str(ctx.author.id)) == 0:
+            await ctx.send(f"추적 중이지 않은 대학교: `{name}`")
+            return
+        universitiesData[name]["trackedMembers"].remove(str(ctx.author.id))
+        await ctx.send(
+            f"추적 해제: `{name}` 대학\n해당 대학교의 입시 경쟁률 추적을 중단합니다."
+        )
+        with open(file="./universitiesData.json", mode="w", encoding="utf-8") as f:
+            json.dump(universitiesData, f, ensure_ascii=False, indent=4)
+
+
 async def setup(bot: ControlSystem):
     await bot.add_cog(Command(bot))
